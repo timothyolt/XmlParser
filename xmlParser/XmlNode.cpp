@@ -2,14 +2,20 @@
 
 #include "XmlNode.hpp"
 
-XmlNode::XmlNode(const std::string &name) { }
+XmlNode::XmlNode(const std::string &name)
+    : name(name) { }
 
-XmlNode::XmlNode(const std::string &name, const std::vector<XmlAttribute> &attributes)
-    : name(name), attributes(attributes) { }
+XmlNode::XmlNode(const std::string &name,
+                 const std::vector<XmlAttribute> &attributes)
+    : name(name)
+    , attributes(attributes) { }
 
 XmlNode::XmlNode(const std::string &name,
                  const std::vector<XmlAttribute> &attributes,
-                 const std::vector<XmlNode> &children) { }
+                 const std::vector<XmlNode> &children)
+    : name(name)
+    , attributes(attributes)
+    , children(children) { }
 
 const std::string &XmlNode::getName() const {
   return name;
@@ -19,10 +25,18 @@ void XmlNode::setName(const std::string &name) {
   XmlNode::name = name;
 }
 
-const std::vector<XmlAttribute> &XmlNode::getAttributes() const {
+std::vector<XmlAttribute> &XmlNode::getAttributes() {
   return attributes;
 }
 
-const std::vector<XmlNode> &XmlNode::getChildren() const {
+void XmlNode::setAttributes(std::vector<XmlAttribute> &attributes) {
+  XmlNode::attributes = attributes;
+}
+
+std::vector<XmlNode> &XmlNode::getChildren() {
   return children;
+}
+
+void XmlNode::setChildren(std::vector<XmlNode> &children) {
+  XmlNode::children = children;
 }

@@ -23,12 +23,15 @@ class XmlNode {
   /// \brief              Creates a named Xml node with various attributes
   /// \param name         Tag name
   /// \param attributes   Vector of attributes
-  XmlNode(const std::string &name, const std::vector<XmlAttribute> &attributes);
+  XmlNode(const std::string &name,
+          const std::vector<XmlAttribute> &attributes);
   /// \brief              Creates a named Xml node with various attributes and children
   /// \param name         Tag name
   /// \param attributes   Vector of attributes
   /// \param children     Vector of child nodes
-  XmlNode(const std::string &name, const std::vector<XmlAttribute> &attributes, const std::vector<XmlNode> &children);
+  XmlNode(const std::string &name,
+          const std::vector<XmlAttribute> &attributes,
+          const std::vector<XmlNode> &children);
   /// \brief  Gets the tag name
   /// \return /p name
   const std::string &getName() const;
@@ -37,10 +40,16 @@ class XmlNode {
   void setName(const std::string &name);
   /// \brief  Gets the vector of attributes
   /// \return /p attributes
-  const std::vector<XmlAttribute> &getAttributes() const;
+  std::vector<XmlAttribute> &getAttributes();
+  /// \brief              Replaces the current attributes vector with the given one
+  /// \param attributes
+  void setAttributes(std::vector<XmlAttribute> &attributes);
   /// \brief  Gets the vector of children nodes
   /// \return /p children nodes
-  const std::vector<XmlNode> &getChildren() const;
+  std::vector<XmlNode> &getChildren();
+  /// \brief            Replaces the current children vector with the given one
+  /// \param children
+  void setChildren(std::vector<XmlNode> &children);
 };
 
 #endif  // XMLPARSER_XMLNODE_HPP_
