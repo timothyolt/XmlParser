@@ -3,6 +3,4 @@ project(xmlParser_implementation)
 
 add_executable(run_xmlParser main.cpp)
 
-include_directories(../xmlParser)
-
 target_link_libraries(run_xmlParser xmlParser)

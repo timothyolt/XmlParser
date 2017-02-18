@@ -27,7 +27,7 @@
 *.out
 *.app
 
-cmake-build-debug/*
-cmake-build-analysis/*
 .idea/workspace.xml
 .sonar/*
+cmake-build-analysis/
+cmake-build-debug/

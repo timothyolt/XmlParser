@@ -12,6 +12,8 @@ endif()
 
 file(COPY "xmlTestData" DESTINATION "${CMAKE_BINARY_DIR}")
 
+include_directories(xmlParser)
+
 add_subdirectory(xmlParser)
 add_subdirectory(xmlParser_implementation)
 add_subdirectory(xmlParser_tests)
