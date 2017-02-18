@@ -1,26 +1,29 @@
 // Copyright 2017 Timothy Oltjenbruns.
 
+#include <vector>
 #include "XmlBuilder.hpp"
 
+class XmlParseException : std::exception {};
+
 XmlBuilder::XmlBuilder()
-    : buffer("")
-    , xml(XmlNode("xml"))
-    , cursor(xml) { }
+    : root(XmlNode("xml"))
+    , cursor(&root)
+    , cursorOpen(false) { }
+
+void XmlBuilder::reset() {
+  root.setChildren(std::vector<XmlNode>());
+  cursorOpen = false;
+}
 
 // TODO(timothyolt): write looper classes for console, files, stringstream, whatever else
 
-/// \brief          Atomic stream input
-///                 Atomic stream input. Uses a single >> operator internally.
-///                 This should be looped and called multiple times until the stream is known to be completed.
-/// \param stream   Input stream reference
-/// \param builder  Destination \p XmlBuilder
-/// \return         Identical stream reference for chaining
 std::istream& operator>>(std::istream& stream, XmlBuilder& builder) {
-  stream >> builder.buffer;
-  switch (builder.buffer[0]) {
+  std::string buffer;
+  stream >> buffer;
+  switch (buffer[0]) {
     case '<':
       // new tag
-      switch (builder.buffer[1]) {
+      switch (buffer[1]) {
         case '/':
           // closing tag, no attributes, move cursor
           break;
@@ -33,7 +36,10 @@ std::istream& operator>>(std::istream& stream, XmlBuilder& builder) {
       // end tag, tag has no children, move cursor
       break;
     default:
-      // must be an attribute, develop more in-depth testing to confirm this
+      // must be accepting attributes
+      if (!builder.cursorOpen)
+        throw XmlParseException();
+
       break;
   }
   return stream;
