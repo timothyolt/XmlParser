@@ -16,11 +16,22 @@ XmlNode::XmlNode(const std::string &name)
 }
 
 XmlNode::XmlNode(const std::string &name,
+                 const XmlNode *parent) {
+
+}
+
+XmlNode::XmlNode(const std::string &name,
                  const std::vector<XmlAttribute> &attributes)
     : name(name)
     , attributes(attributes)
     , children(std::vector<XmlNode>()) {
   assert(!name.empty());
+}
+
+XmlNode::XmlNode(const std::string &name,
+                 const XmlNode *parent,
+                 const std::vector<XmlAttribute> &attributes) {
+
 }
 
 XmlNode::XmlNode(const std::string &name,
@@ -30,6 +41,21 @@ XmlNode::XmlNode(const std::string &name,
     , attributes(attributes)
     , children(children) {
   assert(!name.empty());
+}
+
+XmlNode::XmlNode(const std::string &name,
+                 const XmlNode *parent,
+                 const std::vector<XmlAttribute> &attributes,
+                 const std::vector<XmlNode> &children) {
+
+}
+
+XmlNode *XmlNode::getParent() const {
+  return parent;
+}
+
+void XmlNode::setParent(XmlNode *parent) {
+  XmlNode::parent = parent;
 }
 
 const std::string &XmlNode::getName() const {

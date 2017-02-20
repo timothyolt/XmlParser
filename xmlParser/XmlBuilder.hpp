@@ -16,16 +16,6 @@ class XmlBuilder {
   /// \brief  Whether the cursor is "open" or not.
   ///         \p attributes are valid for an open cursor while \p children are valid for a closed one
   bool cursorOpen;
-  /// \brief      Starts constructing an attribute on the cursor
-  /// \param key  key to give the new attribute
-  void startAttribute(std::string key);
-  /// \brief Flags the current attribute as ready for value assignment
-  void flagAttribute();
-  /// \brief        Reads a stream until it's end quote.
-  ///               Strips out newlines and tabs and processes those escape sequences
-  /// \param stream Input stream to read
-  /// \param buffer Use this buffer to store value in. Useful for setting an initial value.
-  void readQuotedValue(std::istream& stream, std::string& buffer);
 
  public:
   /// \brief  Creates an \p XmlBuilder with a root \p XmlNode named "xml"
@@ -39,8 +29,26 @@ class XmlBuilder {
   /// \param stream   Input stream reference
   /// \param builder  Destination \p XmlBuilder
   /// \return         Identical stream reference for chaining
-  /// \see            XmlBuilder::readQuotedValue
+  /// \see            XmlBuilder::startAttribute
+  /// \see            XmlBuilder::flagAttribute
+  /// \see            XmlBuilder::readAttributeValue
   friend std::istream& operator>> (std::istream& stream, XmlBuilder& builder);
+
+ private:
+  void startNode(std::string name);
+  void finishNodeHeader();
+  void finishNode(std::string name);
+  /// \brief      Starts constructing an attribute on the cursor
+  /// \param key  key to give the new attribute
+  void startAttribute(std::string key);
+  /// \brief Flags the current attribute as ready for value assignment
+  void flagAttribute();
+  /// \brief        Reads a stream until it's end quote.
+  ///               Strips out newlines and tabs and processes those escape sequences
+  /// \param stream Input stream to read
+  /// \param buffer Use this buffer to store value in. Useful for setting an initial value.
+  void readAttributeValue(std::istream &stream, std::string &buffer);
+  void finishAttribute();
 };
 
 #endif  // XMLPARSER_XMLBUILDER_HPP_
