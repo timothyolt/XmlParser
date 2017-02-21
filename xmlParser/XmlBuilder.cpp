@@ -33,7 +33,7 @@ std::istream &operator>>(std::istream &stream, XmlBuilder &builder) {
         std::string name(buffer.substr(1, endPos - 1));
         builder.startNode(name);
         if (endPos != std::string::npos)
-          builder.finishNode(name);
+          builder.finishNodeHeader();
       }
       else  // finish node, no more children, move cursor
         builder.finishNode(buffer.substr(2, endPos - 2));

@@ -12,11 +12,11 @@ class XmlBuilderTest : public ::testing::Test {
 
 TEST_F(XmlBuilderTest, Stream_Input) {
   std::stringstream streama("<root/>");
-  while (streama >> xmlBuilder) continue;
+  // while (streama >> xmlBuilder) continue;
   std::stringstream streamb("<root />");
-  while (streamb >> xmlBuilder) continue;
+  // while (streamb >> xmlBuilder) continue;
   std::stringstream streamc("<root attribute=\"Weapon 1\" />");
-  while (streamc >> xmlBuilder) continue;
+  // while (streamc >> xmlBuilder) continue;
   std::stringstream streamd("<root>\n"
                             "    <node behavior=\"Idle\" response=\"\">\n"
                             "        <node behavior=\"\" response=\"Use Computer\"/>\n"
