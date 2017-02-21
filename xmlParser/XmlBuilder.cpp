@@ -8,16 +8,20 @@
 XmlBuilder::XmlBuilder()
     : root(XmlNode("xml")), cursor(&root), cursorOpen(false), attributeOpen(false) {}
 
-void XmlBuilder::reset() {
-  root.setChildren(std::vector<XmlNode>());
-  cursorOpen = false;
-  attributeOpen = false;
-  return;
+bool XmlBuilder::valid() {
+  return !(cursorOpen || attributeOpen);
 }
 
-// TODO(timothyolt): GetXml function that ensures a valid tree
+XmlNode &XmlBuilder::get() {
+  if (cursorOpen || attributeOpen)
+    throw XmlBuilder::XmlParseException();
+  return root;
+}
 
-// TODO(timothyolt): write looper classes for console, files, stringstream, whatever else
+std::istream &XmlBuilder::readStream(std::istream& stream) {
+  while (stream >> *this) continue;
+  return stream;
+}
 
 std::istream &operator>>(std::istream &stream, XmlBuilder &builder) {
   std::string buffer;
@@ -69,6 +73,8 @@ std::istream &operator>>(std::istream &stream, XmlBuilder &builder) {
 }
 
 void XmlBuilder::startNode(std::string name) {
+  if (cursorOpen)  // make sure the cursor is not open
+    throw XmlBuilder::XmlParseException();
   cursor->getChildren().emplace_back(name, cursor);
   cursor = &cursor->getChildren().back();
   cursorOpen = true;
