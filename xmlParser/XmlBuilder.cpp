@@ -127,8 +127,8 @@ void XmlBuilder::readAttributeValue(std::istream &stream, std::string value) {
   }
   // handle values with no spaces
   std::string::size_type lastQuotePos(value.find_last_of('"'));
-  if (lastQuotePos != std::string::npos && value[lastQuotePos - 1] != '\\') {
-    cursor->getAttributes().back().setValue(value.substr(0, lastQuotePos - 1));
+  if (lastQuotePos != std::string::npos && (value[lastQuotePos - 1] != '\\')) {
+    cursor->getAttributes().back().setValue(value.substr(0, lastQuotePos));
     finishAttribute();
     return;
   }
