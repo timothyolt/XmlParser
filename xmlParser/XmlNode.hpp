@@ -30,7 +30,7 @@ class XmlNode {
   /// \param name         Tag name
   /// \param parent       Parent pointer
   XmlNode(const std::string &name,
-          const XmlNode* parent);
+          XmlNode* parent);
   /// \brief              Creates a named Xml node with attributes
   /// \pre                \p name must not be empty
   /// \param name         Tag name
@@ -43,7 +43,7 @@ class XmlNode {
   /// \param parent       Parent pointer
   /// \param attributes   Vector of attributes
   XmlNode(const std::string &name,
-          const XmlNode* parent,
+          XmlNode* parent,
           const std::vector<XmlAttribute> &attributes);
   /// \brief              Creates a named Xml node with attributes and children
   /// \pre                \p name must not be empty
@@ -60,7 +60,7 @@ class XmlNode {
   /// \param attributes   Vector of attributes
   /// \param children     Vector of child nodes
   XmlNode(const std::string &name,
-          const XmlNode* parent,
+          XmlNode* parent,
           const std::vector<XmlAttribute> &attributes,
           const std::vector<XmlNode> &children);
   /// \brief  Gets the pointer to the parent node

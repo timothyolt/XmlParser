@@ -16,6 +16,7 @@ class XmlBuilder {
   /// \brief  Whether the cursor is "open" or not.
   ///         \p attributes are valid for an open cursor while \p children are valid for a closed one
   bool cursorOpen;
+  bool attributeOpen;
 
  public:
   /// \brief  Creates an \p XmlBuilder with a root \p XmlNode named "xml"
@@ -29,14 +30,23 @@ class XmlBuilder {
   /// \param stream   Input stream reference
   /// \param builder  Destination \p XmlBuilder
   /// \return         Identical stream reference for chaining
+  /// \see            XmlBuilder::startNode
+  /// \see            XmlBuilder::finishNodeHeader
+  /// \see            XmlBuilder::finishNode
   /// \see            XmlBuilder::startAttribute
   /// \see            XmlBuilder::flagAttribute
   /// \see            XmlBuilder::readAttributeValue
   friend std::istream& operator>> (std::istream& stream, XmlBuilder& builder);
 
  private:
+  /// \brief
+  /// \param name
   void startNode(std::string name);
+  /// \brief
+  /// \see    XmlBuilder::finishAttribute();
   void finishNodeHeader();
+  /// \brief
+  /// \param name
   void finishNode(std::string name);
   /// \brief      Starts constructing an attribute on the cursor
   /// \param key  key to give the new attribute
@@ -46,8 +56,8 @@ class XmlBuilder {
   /// \brief        Reads a stream until it's end quote.
   ///               Strips out newlines and tabs and processes those escape sequences
   /// \param stream Input stream to read
-  /// \param buffer Use this buffer to store value in. Useful for setting an initial value.
-  void readAttributeValue(std::istream &stream, std::string &buffer);
+  /// \param value Use this buffer to store value in. Useful for setting an initial value.
+  void readAttributeValue(std::istream &stream, std::string value);
   void finishAttribute();
 };
 
