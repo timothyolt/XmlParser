@@ -31,16 +31,19 @@ std::istream &operator>>(std::istream &stream, XmlBuilder &builder) {
     case '<': {
       if (buffer.length() == 1)  // node does not accept whitespace between < and name or </ and name
         throw XmlBuilder::XmlParseException();
-      std::string::size_type endPos(std::min(buffer.find_first_of('/', 2), buffer.find_first_of('>')));
-      if (buffer[1] != '/') {
+      std::string::size_type closePos(buffer.find_first_of('/', 2));
+      std::string::size_type endPos(std::min(closePos, buffer.find_first_of('>')));
+      if (buffer[1] == '/')  // finish node, no more children, move cursor
+        builder.finishNode(buffer.substr(2, endPos - 2));
+      else {
         // start node, start reading attributes
         std::string name(buffer.substr(1, endPos - 1));
         builder.startNode(name);
         if (endPos != std::string::npos)
           builder.finishNodeHeader();
+        if (closePos != std::string::npos)
+          builder.finishNode(name);
       }
-      else  // finish node, no more children, move cursor
-        builder.finishNode(buffer.substr(2, endPos - 2));
     } break;
     default: {
       // begin new attribute with given key

@@ -10,6 +10,13 @@ class XmlBuilderTest : public ::testing::Test {
   XmlBuilderTest() : xmlBuilder() {}
 };
 
+
+TEST_F(XmlBuilderTest, Stream_Input_SingleNode) {
+  std::stringstream stream("<root/>");
+  xmlBuilder.readStream(stream);
+  EXPECT_TRUE(true);
+}
+
 TEST_F(XmlBuilderTest, Stream_Input) {
   std::stringstream streama("<root/>");
   // while (streama >> xmlBuilder) continue;
