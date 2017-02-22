@@ -10,8 +10,6 @@ if(CMAKE_BUILD_TYPE STREQUAL "Analysis")
     ADD_TARGET_SONAR("Analysis" "xmlParser" "xmlParser_tests" "xmlParser_tests/tests/run_tests")
 endif()
 
-file(COPY "xmlTestData" DESTINATION "${CMAKE_BINARY_DIR}")
-
 include_directories(xmlParser)
 
 add_subdirectory(xmlParser)
