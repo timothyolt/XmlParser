@@ -42,6 +42,19 @@ TEST_F(XmlNodeTest, Property_Name) {
   EXPECT_STREQ("qrst", xmlNode.getName().c_str());
 }
 
+TEST_F(XmlNodeTest, Property_Parent) {
+  xmlNode.setParent(nullptr);
+  EXPECT_TRUE(xmlNode.getParent() == nullptr);
+  XmlNode parent("qrs", std::vector<XmlAttribute> { XmlAttribute("tuv", "wxy") });
+  xmlNode.setParent(&parent);
+  EXPECT_STREQ("qrs", xmlNode.getParent()->getName().c_str());
+}
+
+TEST_F(XmlNodeTest, Property_Parent_Mutability) {
+  xmlNode.getParent()->setName("12");
+  EXPECT_STREQ("12", xmlNode.getParent()->getName().c_str());
+}
+
 TEST_F(XmlNodeTest, Property_Attributes) {
   xmlNode.setAttributes(std::vector<XmlAttribute> { XmlAttribute("uvwx", "yz") });
   EXPECT_STREQ("uvwx", xmlNode.getAttributes()[0].getKey().c_str());
