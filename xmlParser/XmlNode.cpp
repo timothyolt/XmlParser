@@ -98,3 +98,14 @@ std::vector<XmlNode> &XmlNode::getChildren() {
 void XmlNode::setChildren(const std::vector<XmlNode> &children) {
   XmlNode::children = children;
 }
+
+bool XmlNode::operator==(const XmlNode &rhs) const {
+  return parent == rhs.parent &&
+      name == rhs.name &&
+      attributes == rhs.attributes &&
+      children == rhs.children;
+}
+
+bool XmlNode::operator!=(const XmlNode &rhs) const {
+  return !(rhs == *this);
+}

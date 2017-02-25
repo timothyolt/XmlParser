@@ -18,7 +18,7 @@ XmlNode &XmlBuilder::get() {
   return root;
 }
 
-std::istream &XmlBuilder::readStream(std::istream& stream) {
+std::istream &XmlBuilder::build(std::istream &stream) {
   while (stream >> *this) continue;
   return stream;
 }

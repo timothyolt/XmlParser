@@ -1,5 +1,6 @@
 // Copyright 2017 Timothy Oltjenbruns.
 
+#include <fstream>
 #include <gtest/gtest.h>
 #include <XmlBuilder.hpp>
 
@@ -13,7 +14,7 @@ class XmlBuilderTest : public ::testing::Test {
 
 TEST_F(XmlBuilderTest, Stream_Input_SingleNode) {
   std::stringstream stream("<root/>");
-  xmlBuilder.readStream(stream);
+  xmlBuilder.build(stream);
   EXPECT_TRUE(true);
 }
 
@@ -44,6 +45,10 @@ TEST_F(XmlBuilderTest, Stream_Input) {
                             "        </node>\n"
                             "    </node>\n"
                             "</root>");
-  while (streamd >> xmlBuilder) continue;
+  std::ifstream streame;
+  streame.open("data/example.xml");
+  ASSERT_TRUE(streame.is_open());
+  xmlBuilder.build(streame);
+  streame.close();
   EXPECT_TRUE(true);
 }

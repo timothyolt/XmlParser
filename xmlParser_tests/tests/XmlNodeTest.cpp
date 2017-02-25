@@ -4,10 +4,15 @@
 #include "gtest/gtest.h"
 
 class XmlNodeTest : public ::testing::Test {
+ private:
+  XmlNode parent;
  public:
   XmlNode xmlNode;
  protected:
-  XmlNodeTest() : xmlNode("abcd",
+  XmlNodeTest() : parent("qrs",
+                         std::vector<XmlAttribute> { XmlAttribute("tuv", "wxy") }),
+                  xmlNode("abcd",
+                          &parent,
                           std::vector<XmlAttribute> { XmlAttribute("efgh", "ijkl") },
                           std::vector<XmlNode> { XmlNode("mnop") }) {}
 };
@@ -15,8 +20,11 @@ class XmlNodeTest : public ::testing::Test {
 TEST_F(XmlNodeTest, Constructor_Blank_Name) {
   // Test that a blank name crashes the process
   EXPECT_DEATH(XmlNode(""), "");
+  EXPECT_DEATH(XmlNode("", nullptr), "");
   EXPECT_DEATH(XmlNode("", std::vector<XmlAttribute>()), "");
+  EXPECT_DEATH(XmlNode("", nullptr, std::vector<XmlAttribute>()), "");
   EXPECT_DEATH(XmlNode("", std::vector<XmlAttribute>(), std::vector<XmlNode>()), "");
+  EXPECT_DEATH(XmlNode("", nullptr, std::vector<XmlAttribute>(), std::vector<XmlNode>()), "");
 }
 
 TEST_F(XmlNodeTest, Constructor_Sanity) {
@@ -24,6 +32,8 @@ TEST_F(XmlNodeTest, Constructor_Sanity) {
   EXPECT_STREQ("abcd", xmlNode.getName().c_str());
   EXPECT_STREQ("efgh", xmlNode.getAttributes()[0].getKey().c_str());
   EXPECT_STREQ("mnop", xmlNode.getChildren()[0].getName().c_str());
+  EXPECT_STREQ("qrs", xmlNode.getParent()->getName().c_str());
+  EXPECT_STREQ("tuv", xmlNode.getParent()->getAttributes()[0].getKey().c_str());
 }
 
 TEST_F(XmlNodeTest, Property_Name) {
@@ -60,4 +70,17 @@ TEST_F(XmlNodeTest, Property_Children_Mutability) {
   xmlNode.getChildren()[1] = XmlNode("KLMN");
   // Test vector mutability
   EXPECT_STREQ("KLMN", xmlNode.getChildren()[1].getName().c_str());
+}
+
+TEST_F(XmlNodeTest, Equality_This) {
+  EXPECT_TRUE(xmlNode == xmlNode);
+}
+
+TEST_F(XmlNodeTest, Equality_New) {
+  EXPECT_FALSE(xmlNode == XmlNode());
+}
+
+TEST_F(XmlNodeTest, Equality_Duplicate) {
+  EXPECT_TRUE(xmlNode == XmlNode(
+      xmlNode.getName(), xmlNode.getParent(), xmlNode.getAttributes(), xmlNode.getChildren()));
 }

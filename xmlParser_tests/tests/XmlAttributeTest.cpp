@@ -32,3 +32,15 @@ TEST_F(XmlAttributeTest, Property_Value) {
   xmlAttribute.setValue("mnop");
   EXPECT_STREQ("mnop", xmlAttribute.getValue().c_str());
 }
+
+TEST_F(XmlAttributeTest, Equality_This) {
+  EXPECT_TRUE(xmlAttribute == xmlAttribute);
+}
+
+TEST_F(XmlAttributeTest, Equality_New) {
+  EXPECT_FALSE(xmlAttribute == XmlAttribute());
+}
+
+TEST_F(XmlAttributeTest, Equality_Duplicate) {
+  EXPECT_TRUE(xmlAttribute == XmlAttribute(xmlAttribute.getKey(), xmlAttribute.getValue()));
+}

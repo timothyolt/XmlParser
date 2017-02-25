@@ -35,7 +35,7 @@ class XmlBuilder {
   /// \return       Identical stream reference for chaining
   /// \throws       XmlParseException if >> throws any exceptions
   /// \see          XmlBuilder::operator>>
-  std::istream &readStream(std::istream &stream);
+  std::istream &build(std::istream &stream);
   /// \brief          Atomic stream input
   ///                 Atomic stream input. Uses a single >> operator internally, unless quotes are encountered,
   ///                 in that case, the >> operator is called until the quotes are closed. \p readQuotedValue
@@ -52,6 +52,7 @@ class XmlBuilder {
   /// \see            XmlBuilder::flagAttribute
   /// \see            XmlBuilder::readAttributeValue
   friend std::istream& operator>> (std::istream& stream, XmlBuilder& builder);
+
 
  private:
   /// \brief      Moves the cursor to a newly created child on the current cursor

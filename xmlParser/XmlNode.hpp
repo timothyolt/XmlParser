@@ -88,6 +88,15 @@ class XmlNode {
   /// \brief            Replaces the current children vector with the given one
   /// \param children
   void setChildren(const std::vector<XmlNode> &children);
+  /// \brief      Nodes are equal if the name, every child element, and every attribute element are equal
+  /// \param rhs  Other node to compare
+  /// \return     Whether the nodes are considered equal
+  bool operator==(const XmlNode &rhs) const;
+  /// \brief      Nodes are equal if the name, parent pointer, every child, and every attribute are equal.
+  ///             Not equal takes the direct inverse of this check.
+  /// \param rhs  Other node to compare
+  /// \return     Whether the nodes are considered not equal
+  bool operator!=(const XmlNode &rhs) const;
 };
 
 #endif  // XMLPARSER_XMLNODE_HPP_
