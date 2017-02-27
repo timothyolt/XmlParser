@@ -7,7 +7,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake-modules-sonar")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Analysis")
     include(SonarAnalysis)
-    ADD_TARGET_SONAR("Analysis" "xmlParser" "xmlParser_tests" "xmlParser_tests/tests/run_tests")
+    ADD_TARGET_SONAR("Analysis" "xmlParser" "xmlParser_tests" "xmlParser_tests/tests" "run_tests")
 endif()
 
 include_directories(xmlParser)
