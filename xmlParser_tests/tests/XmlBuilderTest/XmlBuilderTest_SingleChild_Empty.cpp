@@ -32,6 +32,10 @@ TEST_F(XmlBuilderTest_SingleChild_Empty, String_RootCloseWhitespace) {
   testString("<root ><child/></root >", expected);
 }
 
+TEST_F(XmlBuilderTest_SingleChild_Empty, String_CloseNodeWhitespace) {
+  testString("<root> <child/> </root>", expected);
+}
+
 TEST_F(XmlBuilderTest_SingleChild_Empty, File_NoWhitespace) {
   testFile("data/XmlBuilderTest/SingleChild/Empty/NoWhitespace.xml", expected);
 }
@@ -46,4 +50,8 @@ TEST_F(XmlBuilderTest_SingleChild_Empty, File_ChildCloseWhitespace) {
 
 TEST_F(XmlBuilderTest_SingleChild_Empty, File_RootCloseWhitespace) {
   testFile("data/XmlBuilderTest/SingleChild/Empty/RootCloseWhitespace.xml", expected);
+}
+
+TEST_F(XmlBuilderTest_SingleChild_Empty, File_CloseNodeWhitespace) {
+  testFile("data/XmlBuilderTest/SingleChild/Empty/CloseNodeWhitespace.xml", expected);
 }

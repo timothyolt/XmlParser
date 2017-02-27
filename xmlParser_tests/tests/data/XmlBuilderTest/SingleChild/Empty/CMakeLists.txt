@@ -1,3 +1,5 @@
 configure_file(NoWhitespace.xml NoWhitespace.xml COPYONLY)
 configure_file(CloseWhitespace.xml CloseWhitespace.xml COPYONLY)
 configure_file(CloseNodeWhitespace.xml CloseNodeWhitespace.xml COPYONLY)
+configure_file(ChildCloseWhitespace.xml ChildCloseWhitespace.xml COPYONLY)
+configure_file(RootCloseWhitespace.xml RootCloseWhitespace.xml COPYONLY)
