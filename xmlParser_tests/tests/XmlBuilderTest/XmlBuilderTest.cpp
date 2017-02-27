@@ -1,22 +1,11 @@
 // Copyright 2017 Timothy Oltjenbruns.
 
-#include <fstream>
 #include <gtest/gtest.h>
+#include <fstream>
 #include <XmlBuilder.hpp>
+#include "XmlBuilderTest.hpp"
 
-class XmlBuilderTest : public ::testing::Test {
- public:
-  XmlBuilder xmlBuilder;
- protected:
-  XmlBuilderTest() : xmlBuilder() {}
-};
-
-
-TEST_F(XmlBuilderTest, Stream_Input_SingleNode) {
-  std::stringstream stream("<root/>");
-  xmlBuilder.build(stream);
-  EXPECT_TRUE(true);
-}
+XmlBuilderTest::XmlBuilderTest() : xmlBuilder() {}
 
 TEST_F(XmlBuilderTest, Stream_Input) {
   std::stringstream streama("<root/>");

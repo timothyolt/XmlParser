@@ -15,7 +15,9 @@ bool XmlBuilder::valid() {
 XmlNode &XmlBuilder::get() {
   if (cursorOpen || attributeOpen)
     throw XmlBuilder::XmlParseException();
-  return root;
+  if (root.getChildren().size() > 1)
+    throw XmlBuilder::XmlParseException();
+  return root.getChildren().front();
 }
 
 std::istream &XmlBuilder::build(std::istream &stream) {

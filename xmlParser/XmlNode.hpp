@@ -92,7 +92,7 @@ class XmlNode {
   /// \param rhs  Other node to compare
   /// \return     Whether the nodes are considered equal
   bool operator==(const XmlNode &rhs) const;
-  /// \brief      Nodes are equal if the name, parent pointer, every child, and every attribute are equal.
+  /// \brief      Nodes are equal if the name, every child, and every attribute are equal.
   ///             Not equal takes the direct inverse of this check.
   /// \param rhs  Other node to compare
   /// \return     Whether the nodes are considered not equal

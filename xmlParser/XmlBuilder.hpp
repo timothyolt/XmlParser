@@ -29,6 +29,7 @@ class XmlBuilder {
   /// \brief  Get the current state of the Xml tree
   /// \return root XmlNode
   /// \throws XmlParseException if cursor or attribute is open
+  /// \throws XmlParseException if there is more than one root node
   XmlNode& get();
   /// \brief        Read stream until \p eof
   /// \param stream Input stream reference

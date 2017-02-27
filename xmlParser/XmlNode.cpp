@@ -100,7 +100,8 @@ void XmlNode::setChildren(const std::vector<XmlNode> &children) {
 }
 
 bool XmlNode::operator==(const XmlNode &rhs) const {
-  return parent == rhs.parent &&
+  // equal nodes can have different parents
+  return  // parent == rhs.parent &&
       name == rhs.name &&
       attributes == rhs.attributes &&
       children == rhs.children;
