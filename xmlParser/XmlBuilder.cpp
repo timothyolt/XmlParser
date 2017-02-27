@@ -28,52 +28,76 @@ std::istream &XmlBuilder::build(std::istream &stream) {
 std::istream &operator>>(std::istream &stream, XmlBuilder &builder) {
   std::string buffer;
   stream >> buffer;
-  if (buffer.length() == 0) return stream;
-  switch (buffer[0]) {
-    case '<': {
-      if (buffer.length() == 1)  // node does not accept whitespace between < and name or </ and name
-        throw XmlBuilder::XmlParseException();
-      std::string::size_type closePos(buffer.find_first_of('/', 2));
-      std::string::size_type endPos(std::min(closePos, buffer.find_first_of('>')));
-      if (buffer[1] == '/')  // finish node, no more children, move cursor
-        builder.finishNode(buffer.substr(2, endPos - 2));
-      else {
-        // start node, start reading attributes
-        std::string name(buffer.substr(1, endPos - 1));
-        builder.startNode(name);
-        if (endPos != std::string::npos)
-          builder.finishNodeHeader();
-        if (closePos != std::string::npos)
-          builder.finishNode(name);
+  while (buffer.length() > 0) {
+    switch (buffer[0]) {
+      case '<': {
+        if (buffer.length() == 1)  // node does not accept whitespace between < and name or </ and name
+          throw XmlBuilder::XmlParseException();
+        std::string::size_type closePos(buffer.find_first_of('/', 2));
+        std::string::size_type endPos(buffer.find_first_of('>'));
+        std::string::size_type minPos(std::min(closePos, endPos));
+        if (buffer[1] == '/')  // finish node, no more children, move cursor
+          builder.finishNode(buffer.substr(2, minPos - 2));
+        else {
+          // start node, start reading attributes
+          std::string name(buffer.substr(1, minPos - 1));
+          builder.startNode(name);
+          if (minPos != std::string::npos) {
+            builder.finishNodeHeader();
+            // data-flow analysis false positive
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCDFAInspection"
+            if (closePos == minPos)
+              builder.finishNode(name);
+#pragma clang diagnostic pop
+          }
+        }
+        // wait for more input
+        if (minPos == std::string::npos) return stream;
+        buffer = buffer.substr(endPos + 1);
+        break;
       }
-    } break;
-    default: {
-      // begin new attribute with given key
-      std::string::size_type assignmentPos(buffer.find_first_of('='));
-      builder.startAttribute(buffer.substr(0, assignmentPos));
-      if (assignmentPos == std::string::npos) break;
+      default: {
+        // begin new attribute with given key
+        std::string::size_type assignmentPos(buffer.find_first_of('='));
+        builder.startAttribute(buffer.substr(0, assignmentPos));
+        // wait on more input
+        if (assignmentPos == std::string::npos) return stream;
+        buffer = buffer.substr(assignmentPos);
+      }
+      case '=': {  // hit when whitespace exists between the attribute key and the assignment operator
+        // flag attribute that the assignment operator was found
+        std::string::size_type valuePos(buffer.find_first_of('"'));
+        builder.flagAttribute();
+        // wait on more input
+        if (valuePos == std::string::npos) return stream;
+        buffer = buffer.substr(valuePos);
+      }
+      case '"': {  // hit when whitespace exists between the assignment operator and the value
+        // begin value, read until end quote
+        builder.readAttributeValue(stream, buffer.substr(1));
+        std::string::size_type closePos(std::min(buffer.find_first_of('/'), buffer.find_first_of('>')));
+        // wait on more input
+        if (closePos == std::string::npos) return stream;
+        buffer = buffer.substr(closePos);
+      }
+      case '/':
+        // finishNodeHeader has to be called first anyways
+      case '>': {
+        // end of a close node tag
+        if (!builder.cursorOpen) return stream;
+        // begin reading children, no more attributes
+        builder.finishNodeHeader();
+        if (buffer[0] == '/')
+          // finish node, it has no children, move cursor
+          builder.finishNode(builder.cursor->getName());
+        std::string::size_type openPos(buffer.find_first_of('<'));
+        if (openPos == std::string::npos) return stream;
+        buffer = buffer.substr(openPos);
+      }
     }
-    case '=': {  // hit when whitespace exists between the attribute key and the assignment operator
-      // flag attribute that the assignment operator was found
-      std::string::size_type valuePos(buffer.find_first_of('"'));
-      builder.flagAttribute();
-      if (valuePos == std::string::npos) break;
-      buffer = buffer.substr(valuePos);
-    }
-    case '"': {  // hit when whitespace exists between the assignment operator and the value
-      // begin value, read until end quote
-      builder.readAttributeValue(stream, buffer.substr(1));
-      if (buffer.find_first_of('>') == std::string::npos) break;
-    }
-    case '/':
-    case '>': {
-      // begin reading children, no more attributes
-      builder.finishNodeHeader();
-      if (buffer.find_first_of('/') == std::string::npos) break;
-      // finish node, it has no children, move cursor
-      builder.finishNode(builder.cursor->getName());
-    } break;
   }
+  // wait on more input
   return stream;
 }
 
