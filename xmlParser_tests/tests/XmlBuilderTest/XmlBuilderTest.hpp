@@ -10,6 +10,8 @@
 class XmlBuilderTest : public ::testing::Test {
  public:
   XmlBuilder xmlBuilder;
+  void testString(std::string string, const XmlNode& expected);
+  void testFile(std::string filename, const XmlNode& expected);
  protected:
   XmlBuilderTest();
 };

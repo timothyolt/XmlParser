@@ -132,6 +132,7 @@ void XmlBuilder::readAttributeValue(std::istream &stream, std::string value) {
     throw XmlBuilder::XmlParseException();
   // empty value
   if (value.size() < 2) {
+    // TODO(timothyolt): broken
     cursor->getAttributes().back().setValue("");
     finishAttribute();
     return;

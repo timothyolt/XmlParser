@@ -7,6 +7,25 @@
 
 XmlBuilderTest::XmlBuilderTest() : xmlBuilder() {}
 
+void XmlBuilderTest::testString(std::string string, const XmlNode& expected) {
+  std::stringstream stringstream(string);
+  xmlBuilder.build(stringstream);
+  ASSERT_TRUE(xmlBuilder.valid());
+  auto actual(xmlBuilder.get());
+  EXPECT_TRUE(expected == actual);
+}
+
+void XmlBuilderTest::testFile(std::string filename, const XmlNode& expected) {
+  std::ifstream file;
+  file.open(filename);
+  ASSERT_TRUE(file.is_open());
+  xmlBuilder.build(file);
+  file.close();
+  ASSERT_TRUE(xmlBuilder.valid());
+  auto actual(xmlBuilder.get());
+  EXPECT_TRUE(expected == actual);
+}
+
 TEST_F(XmlBuilderTest, Stream_Input) {
   std::stringstream streama("<root/>");
   // while (streama >> xmlBuilder) continue;
