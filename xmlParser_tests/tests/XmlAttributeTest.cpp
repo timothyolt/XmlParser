@@ -44,3 +44,11 @@ TEST_F(XmlAttributeTest, Equality_New) {
 TEST_F(XmlAttributeTest, Equality_Duplicate) {
   EXPECT_TRUE(xmlAttribute == XmlAttribute(xmlAttribute.getKey(), xmlAttribute.getValue()));
 }
+
+TEST_F(XmlAttributeTest, Inequality_VaryKey) {
+  EXPECT_TRUE(xmlAttribute != XmlAttribute("varyKey", xmlAttribute.getValue()));
+}
+
+TEST_F(XmlAttributeTest, Inequality_VaryValue) {
+  EXPECT_TRUE(xmlAttribute != XmlAttribute(xmlAttribute.getKey(), "varyValue"));
+}

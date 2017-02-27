@@ -97,3 +97,31 @@ TEST_F(XmlNodeTest, Equality_Duplicate) {
   EXPECT_TRUE(xmlNode == XmlNode(
       xmlNode.getName(), xmlNode.getParent(), xmlNode.getAttributes(), xmlNode.getChildren()));
 }
+
+TEST_F(XmlNodeTest, Equality_VaryParent) {
+  XmlNode duplicate(xmlNode.getName(), xmlNode.getParent(), xmlNode.getAttributes(), xmlNode.getChildren());
+  XmlNode parent1("parent1");
+  XmlNode parent2("parent2");
+  xmlNode.setParent(&parent1);
+  duplicate.setParent(&parent2);
+  EXPECT_TRUE(xmlNode == duplicate);
+}
+
+TEST_F(XmlNodeTest, Inequality_VaryName) {
+  EXPECT_TRUE(xmlNode != XmlNode(
+      "varyName", xmlNode.getParent(), xmlNode.getAttributes(), xmlNode.getChildren()));
+}
+
+TEST_F(XmlNodeTest, Inequality_VaryAttributes) {
+  EXPECT_TRUE(xmlNode != XmlNode(
+      xmlNode.getName(), xmlNode.getParent(), std::vector<XmlAttribute> {
+          XmlAttribute("varyAttributes", "varyAttributes")
+      }, xmlNode.getChildren()));
+}
+
+TEST_F(XmlNodeTest, Inequality_VaryChildren) {
+  EXPECT_TRUE(xmlNode != XmlNode(
+      xmlNode.getName(), xmlNode.getParent(), xmlNode.getAttributes(), std::vector<XmlNode> {
+          XmlNode("varyChildren")
+      }));
+}
