@@ -130,13 +130,6 @@ void XmlBuilder::readAttributeValue(std::istream &stream, std::string value) {
   if (cursor->getAttributes().size() == 0
       || cursor->getAttributes().back().getValue().compare("=") != 0)
     throw XmlBuilder::XmlParseException();
-  // empty value
-  if (value.size() < 2) {
-    // TODO(timothyolt): broken
-    cursor->getAttributes().back().setValue("");
-    finishAttribute();
-    return;
-  }
   // handle values with no spaces (and empty values without tailing whitespace)
   std::string::size_type lastQuotePos(value.find_last_of('"'));
   if (lastQuotePos != std::string::npos && (lastQuotePos == 0 || value[lastQuotePos - 1] != '\\')) {
