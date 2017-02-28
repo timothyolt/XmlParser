@@ -32,6 +32,15 @@ class XmlAttribute {
   /// \brief        Sets the XmlAttribute value as a /p string without quotes
   /// \param value  Value without quotes
   void setValue(const std::string &value);
+  /// \brief      Attributes are equal if the key and value strings are equal
+  /// \param rhs  Other attribute to compare
+  /// \return     Whether the attributes are considered equal
+  bool operator==(const XmlAttribute &rhs) const;
+  /// \brief      Attributes are equal if either the key and value strings are equal,
+  ///             and not equal takes the direct inverse of this check
+  /// \param rhs  Other attribute to compare
+  /// \return     Whether the attributes are considered not equal
+  bool operator!=(const XmlAttribute &rhs) const;
 };
 
 #endif  // XMLPARSER_XMLATTRIBUTE_HPP_

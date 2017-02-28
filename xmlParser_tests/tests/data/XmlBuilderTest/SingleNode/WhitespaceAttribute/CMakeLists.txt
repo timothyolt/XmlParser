@@ -1,0 +1,8 @@
+configure_file(NoWhitespace.xml NoWhitespace.xml COPYONLY)
+configure_file(AssignmentWhitespacePre.xml AssignmentWhitespacePre.xml COPYONLY)
+configure_file(AssignmentWhitespacePost.xml AssignmentWhitespacePost.xml COPYONLY)
+configure_file(AssignmentWhitespacePrePost.xml AssignmentWhitespacePrePost.xml COPYONLY)
+configure_file(CloseWhitespace.xml CloseWhitespace.xml COPYONLY)
+configure_file(CloseWhitespace_AssignmentWhitespacePre.xml CloseWhitespace_AssignmentWhitespacePre.xml COPYONLY)
+configure_file(CloseWhitespace_AssignmentWhitespacePost.xml CloseWhitespace_AssignmentWhitespacePost.xml COPYONLY)
+configure_file(CloseWhitespace_AssignmentWhitespacePrePost.xml CloseWhitespace_AssignmentWhitespacePrePost.xml COPYONLY)

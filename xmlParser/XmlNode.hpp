@@ -10,6 +10,8 @@
 /// \brief A named Xml tag with various attributes and children
 class XmlNode {
  private:
+  /// \brief pointer to the parent node, if known
+  XmlNode* parent;
   /// \brief Xml tag name
   std::string name;
   /// \brief vector of tag attributes
@@ -19,17 +21,31 @@ class XmlNode {
  public:
   /// \brief Creates a blank Xml node
   XmlNode();
-  /// \brief              Creates a named Xml node with various attributes
+  /// \brief              Creates a named Xml node
   /// \pre                \p name must not be empty
   /// \param name         Tag name
   explicit XmlNode(const std::string &name);
-  /// \brief              Creates a named Xml node with various attributes
+  /// \brief              Creates a named Xml node with a pointer to it's parent
+  /// \pre                \p name must not be empty
+  /// \param name         Tag name
+  /// \param parent       Parent pointer
+  XmlNode(const std::string &name,
+          XmlNode* parent);
+  /// \brief              Creates a named Xml node with attributes
   /// \pre                \p name must not be empty
   /// \param name         Tag name
   /// \param attributes   Vector of attributes
   XmlNode(const std::string &name,
           const std::vector<XmlAttribute> &attributes);
-  /// \brief              Creates a named Xml node with various attributes and children
+  /// \brief              Creates a named Xml node with attributes and a pointer to it's parent
+  /// \pre                \p name must not be empty
+  /// \param name         Tag name
+  /// \param parent       Parent pointer
+  /// \param attributes   Vector of attributes
+  XmlNode(const std::string &name,
+          XmlNode* parent,
+          const std::vector<XmlAttribute> &attributes);
+  /// \brief              Creates a named Xml node with attributes and children
   /// \pre                \p name must not be empty
   /// \param name         Tag name
   /// \param attributes   Vector of attributes
@@ -37,6 +53,22 @@ class XmlNode {
   XmlNode(const std::string &name,
           const std::vector<XmlAttribute> &attributes,
           const std::vector<XmlNode> &children);
+  /// \brief              Creates a named Xml node with attributes and children and a pointer to it's parent
+  /// \pre                \p name must not be empty
+  /// \param name         Tag name
+  /// \param parent       Parent pointer
+  /// \param attributes   Vector of attributes
+  /// \param children     Vector of child nodes
+  XmlNode(const std::string &name,
+          XmlNode* parent,
+          const std::vector<XmlAttribute> &attributes,
+          const std::vector<XmlNode> &children);
+  /// \brief  Gets the pointer to the parent node
+  /// \return parent node pointer
+  XmlNode *getParent() const;
+  /// \brief        Sets a pointer to the parent node
+  /// \param parent parent pointer
+  void setParent(XmlNode *parent);
   /// \brief  Gets the tag name
   /// \return /p name
   const std::string &getName() const;
@@ -56,6 +88,15 @@ class XmlNode {
   /// \brief            Replaces the current children vector with the given one
   /// \param children
   void setChildren(const std::vector<XmlNode> &children);
+  /// \brief      Nodes are equal if the name, every child element, and every attribute element are equal
+  /// \param rhs  Other node to compare
+  /// \return     Whether the nodes are considered equal
+  bool operator==(const XmlNode &rhs) const;
+  /// \brief      Nodes are equal if the name, every child, and every attribute are equal.
+  ///             Not equal takes the direct inverse of this check.
+  /// \param rhs  Other node to compare
+  /// \return     Whether the nodes are considered not equal
+  bool operator!=(const XmlNode &rhs) const;
 };
 
 #endif  // XMLPARSER_XMLNODE_HPP_

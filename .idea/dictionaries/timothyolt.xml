@@ -1,8 +1,10 @@
 <component name="ProjectDictionaryState">
   <dictionary name="timothyolt">
     <words>
+      <w>stringstream</w>
       <w>timothyolt</w>
       <w>xmlattribute</w>
+      <w>xmlbuilder</w>
       <w>xmlnode</w>
       <w>xmlparser</w>
     </words>

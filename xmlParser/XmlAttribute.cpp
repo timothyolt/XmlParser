@@ -25,3 +25,12 @@ const std::string &XmlAttribute::getValue() const {
 void XmlAttribute::setValue(const std::string &value) {
   XmlAttribute::value = value;
 }
+
+bool XmlAttribute::operator==(const XmlAttribute &rhs) const {
+  return key == rhs.key &&
+      value == rhs.value;
+}
+
+bool XmlAttribute::operator!=(const XmlAttribute &rhs) const {
+  return !(rhs == *this);
+}

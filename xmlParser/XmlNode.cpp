@@ -5,11 +5,22 @@
 
 XmlNode::XmlNode()
     : name("")
+    , parent(nullptr)
     , attributes(std::vector<XmlAttribute>())
-    , children(std::vector<XmlNode>())  { }
+    , children(std::vector<XmlNode>()) { }
 
 XmlNode::XmlNode(const std::string &name)
     : name(name)
+    , parent(nullptr)
+    , attributes(std::vector<XmlAttribute>())
+    , children(std::vector<XmlNode>()) {
+  assert(!name.empty());
+}
+
+XmlNode::XmlNode(const std::string &name,
+                 XmlNode *parent)
+    : name(name)
+    , parent(parent)
     , attributes(std::vector<XmlAttribute>())
     , children(std::vector<XmlNode>()) {
   assert(!name.empty());
@@ -18,6 +29,17 @@ XmlNode::XmlNode(const std::string &name)
 XmlNode::XmlNode(const std::string &name,
                  const std::vector<XmlAttribute> &attributes)
     : name(name)
+    , parent(nullptr)
+    , attributes(attributes)
+    , children(std::vector<XmlNode>()) {
+  assert(!name.empty());
+}
+
+XmlNode::XmlNode(const std::string &name,
+                 XmlNode *parent,
+                 const std::vector<XmlAttribute> &attributes)
+    : name(name)
+    , parent(parent)
     , attributes(attributes)
     , children(std::vector<XmlNode>()) {
   assert(!name.empty());
@@ -27,9 +49,29 @@ XmlNode::XmlNode(const std::string &name,
                  const std::vector<XmlAttribute> &attributes,
                  const std::vector<XmlNode> &children)
     : name(name)
+    , parent(nullptr)
     , attributes(attributes)
     , children(children) {
   assert(!name.empty());
+}
+
+XmlNode::XmlNode(const std::string &name,
+                 XmlNode *parent,
+                 const std::vector<XmlAttribute> &attributes,
+                 const std::vector<XmlNode> &children)
+    : name(name)
+    , parent(parent)
+    , attributes(attributes)
+    , children(children) {
+  assert(!name.empty());
+}
+
+XmlNode *XmlNode::getParent() const {
+  return parent;
+}
+
+void XmlNode::setParent(XmlNode *parent) {
+  XmlNode::parent = parent;
 }
 
 const std::string &XmlNode::getName() const {
@@ -55,4 +97,16 @@ std::vector<XmlNode> &XmlNode::getChildren() {
 
 void XmlNode::setChildren(const std::vector<XmlNode> &children) {
   XmlNode::children = children;
+}
+
+bool XmlNode::operator==(const XmlNode &rhs) const {
+  // equal nodes can have different parents
+  return  // parent == rhs.parent &&
+      name == rhs.name &&
+      attributes == rhs.attributes &&
+      children == rhs.children;
+}
+
+bool XmlNode::operator!=(const XmlNode &rhs) const {
+  return !(rhs == *this);
 }
