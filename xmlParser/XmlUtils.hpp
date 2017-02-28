@@ -68,6 +68,10 @@ const XmlNode* searchAttributeBf(const XmlNode *root, const XmlAttribute attribu
 /// \param value  String to compate with node name, and attribute value
 /// \return       Const-pointer to first node matching the attribute, or nullptr if not found
 const XmlNode* searchValueBf(const XmlNode *root, std::string value);
+/// \brief      Stochastically selects a leaf node based on a parent input node
+/// \param node Pointer to an behavior tree node
+/// \return     Pointer to selected leaf
+const XmlNode *stochasticResponse(const XmlNode *node);
 };
 
 #endif  // XMLPARSER_XMLUTILS_HPP_

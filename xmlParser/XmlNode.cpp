@@ -1,8 +1,10 @@
 // Copyright 2017 Timothy Oltjenbruns.
 
 #include "XmlNode.hpp"
+#include "XmlUtils.hpp"
 #include <assert.h>
 #include <algorithm>
+#include <iostream>
 
 XmlNode::XmlNode()
     : name("")
@@ -124,4 +126,33 @@ bool XmlNode::operator==(const XmlNode &rhs) const {
 
 bool XmlNode::operator!=(const XmlNode &rhs) const {
   return !(rhs == *this);
+}
+
+std::string XmlNode::toString() const {
+  if (attributes.size() == 0)
+    return name;
+  std::string line;
+  for (auto i(0); i < attributes.size(); ++i)
+    if (attributes[i].getValue().length() > 0)
+      line += attributes[i].getKey() + " = " + attributes[i].getValue() + ' ';
+  return line;
+}
+
+std::ostream &operator<<(std::ostream &os, const XmlNode &node) {
+  std::stack<XmlUtils::Helpers::XmlNodeIndex> stack;
+  stack.emplace(&node, 0);
+  while (!stack.empty()) {
+    auto cursor(stack.top().pointer);
+    if (stack.top().index == 0) {
+      std::cout << std::endl;
+      for (auto i(1); i < stack.size(); ++i)
+        std::cout << '\t';
+      std::cout << cursor->toString();
+    }
+    if (stack.top().index < cursor->getConstChildren().size()) {
+      stack.emplace(&cursor->getConstChildren()[stack.top().index++], 0);
+    }
+    else stack.pop();
+  }
+  return os;
 }

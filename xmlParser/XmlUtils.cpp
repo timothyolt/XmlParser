@@ -45,3 +45,21 @@ const XmlNode *XmlUtils::searchValueBf(const XmlNode *root, std::string value) {
                         }) != node->getConstAttributes().end();
   });
 }
+
+const XmlNode* XmlUtils::stochasticResponse(const XmlNode *node) {
+  std::vector<XmlNode>::size_type size(node->getConstChildren().size());
+  if (size == 0)
+    return node;
+  // whether the parent node has a non-empty behavior attribute
+  bool parentBehavior((std::find_if(node->getConstAttributes().begin(), node->getConstAttributes().end(), [](const XmlAttribute& attribute){
+    return attribute.getKey().compare("response") == 0 && !attribute.getValue().empty();
+  }) != node->getConstAttributes().end()));
+  unsigned long selection(rand() % (node->getConstChildren().size() + (parentBehavior ? 1 : 0)));
+  // data flow analysis false positive
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCDFAInspection"
+  if (selection == size)
+    return node;
+  return stochasticResponse(&node->getConstChildren()[selection]);
+#pragma clang diagnostic pop
+}

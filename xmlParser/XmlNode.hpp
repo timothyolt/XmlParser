@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <stack>
+#include <ostream>
 #include "XmlAttribute.hpp"
 
 #ifndef XMLPARSER_XMLNODE_HPP_
@@ -103,6 +104,10 @@ class XmlNode {
   /// \param rhs  Other node to compare
   /// \return     Whether the nodes are considered not equal
   bool operator!=(const XmlNode &rhs) const;
+
+  std::string toString() const;
+
+  friend std::ostream &operator<<(std::ostream &os, const XmlNode &node);
 };
 
 #endif  // XMLPARSER_XMLNODE_HPP_
