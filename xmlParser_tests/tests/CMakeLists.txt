@@ -8,7 +8,7 @@ add_executable(run_tests
         XmlBuilderTest/XmlBuilderTest.hpp
         XmlBuilderTest/XmlBuilderTest_SingleNode_BlankAttribute.cpp
         XmlBuilderTest/XmlBuilderTest_SingleNode_WhitespaceAttribute.cpp
-        XmlBuilderTest/XmlBuilderTest_SingleChild_Empty.cpp XmlBuilderTest/XmlBuilderTest_Examples.cpp)
+        XmlBuilderTest/XmlBuilderTest_SingleChild_Empty.cpp XmlBuilderTest/XmlBuilderTest_Examples.cpp XmlUtilsTest.cpp)
 
 add_subdirectory("data")
 

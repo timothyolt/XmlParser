@@ -2,12 +2,11 @@
 
 #include <iostream>
 #include <XmlNode.hpp>
+#include <XmlUtils.hpp>
 
 int main(int argCount, char* args[]) {
   std::cout << "Hello XmlParser World!" << std::endl;
   XmlNode node("name");
-  node.getChildren().reserve(1);
-  node.getChildren()[0] = XmlNode(NULL);
-  std::cout << node.getChildren()[0].getName() << std::endl;
+  XmlUtils::searchDf(&node, XmlAttribute());
   return 0;
 }

@@ -1,7 +1,8 @@
 // Copyright 2017 Timothy Oltjenbruns.
 
-#include <assert.h>
 #include "XmlNode.hpp"
+#include <assert.h>
+#include <algorithm>
 
 XmlNode::XmlNode()
     : name("")
@@ -66,6 +67,12 @@ XmlNode::XmlNode(const std::string &name,
   assert(!name.empty());
 }
 
+XmlNode::XmlNode(const XmlNode &copy)
+    : name(copy.name)
+    , parent(copy.parent)
+    , attributes(copy.attributes)
+    , children(copy.children) { }
+
 XmlNode *XmlNode::getParent() const {
   return parent;
 }
@@ -87,11 +94,19 @@ std::vector<XmlAttribute> &XmlNode::getAttributes() {
   return attributes;
 }
 
+const std::vector<XmlAttribute> &XmlNode::getConstAttributes() const {
+  return attributes;
+}
+
 void XmlNode::setAttributes(const std::vector<XmlAttribute> &attributes) {
   XmlNode::attributes = attributes;
 }
 
 std::vector<XmlNode> &XmlNode::getChildren() {
+  return children;
+}
+
+const std::vector<XmlNode> &XmlNode::getConstChildren() const {
   return children;
 }
 
