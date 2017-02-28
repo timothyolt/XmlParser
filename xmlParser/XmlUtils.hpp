@@ -38,11 +38,11 @@ const XmlNode* searchDf(const XmlNode *root, Functional evaluate) {
 /// \brief            Depth-First Search for a node containing a matching attribute
 /// \param attribute  Attribute key/value pair to search for
 /// \return           Const-pointer to first node matching the attribute, or nullptr if not found
-const XmlNode* searchDf(const XmlNode *root, const XmlAttribute attribute);
+const XmlNode* searchAttributeDf(const XmlNode *root, const XmlAttribute attribute);
 /// \brief        Depth-First Search for a node with a matching name, or attribute value
 /// \param value  String to compate with node name, and attribute value
 /// \return       Const-pointer to first node matching the attribute, or nullptr if not found
-const XmlNode* searchDf(const XmlNode *root, const std::string value);
+const XmlNode* searchValueDf(const XmlNode *root, std::string value);
 /// \brief            Breadth-First Search using a Functional to evaluate the node
 /// \param evaluate   Functional used to evaluate the node
 /// \return           Const-pointer to first node matching the functional, or nullptr if not found
@@ -63,11 +63,11 @@ const XmlNode* searchBf(const XmlNode *root, Functional evaluate) {
 /// \brief            Breadth-First Search for a node containing a matching attribute
 /// \param attribute  Attribute key/value pair to search for
 /// \return           Const-pointer to first node matching the attribute, or nullptr if not found
-const XmlNode* searchBf(const XmlNode *root, const XmlAttribute attribute);
+const XmlNode* searchAttributeBf(const XmlNode *root, const XmlAttribute attribute);
 /// \brief        Breadth-First Search for a node with a matching name, or attribute value
 /// \param value  String to compate with node name, and attribute value
 /// \return       Const-pointer to first node matching the attribute, or nullptr if not found
-const XmlNode* searchBf(const XmlNode *root, const std::string value);
+const XmlNode* searchValueBf(const XmlNode *root, std::string value);
 };
 
 #endif  // XMLPARSER_XMLUTILS_HPP_
